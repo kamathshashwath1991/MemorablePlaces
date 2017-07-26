@@ -3,6 +3,7 @@ package com.example.android.memorableplaces;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.icu.text.SimpleDateFormat;
 import android.location.Address;
@@ -26,6 +27,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -155,6 +157,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         MainActivity.places.add(address);
         MainActivity.places.add(latLng.toString());
         MainActivity.arrayAdapter.notifyDataSetChanged();
+
+        SharedPreferences sharedPreferences= this.getSharedPreferences("com.example.android.memorableplaces",Context.MODE_PRIVATE);
+        try {
+            ArrayList<String> latitudes= new ArrayList<String>();
+            ArrayList<String> longitudes= new ArrayList<String>();
+
+            for (LatLng cordinates: MainActivity.location){
+                latitudes.add(Double.toString(cordinates.latitude));
+                longitudes.add(Double.toString(cordinates.longitude));
+            }
+            sharedPreferences.edit().putString("places",ObjectSerializer.serialize(MainActivity.places)).apply();
+            sharedPreferences.edit().putString("latitudes",ObjectSerializer.serialize(latitudes)).apply();
+            sharedPreferences.edit().putString("longitudes",ObjectSerializer.serialize(longitudes)).apply();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         Toast.makeText(this,"Location saved", Toast.LENGTH_LONG).show();
     }
