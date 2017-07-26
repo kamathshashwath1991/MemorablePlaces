@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     static ArrayList<LatLng> location= new ArrayList<LatLng>();
     static ArrayAdapter<String> arrayAdapter;
     private SharedPreferences msharedPreferences;
-    private Location mlocation;
+
 
 
     @Override
