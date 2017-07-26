@@ -116,7 +116,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             }
 
-        };
+        }else{
+           Location placeLocation= new Location(LocationManager.GPS_PROVIDER);
+            placeLocation.setLatitude(MainActivity.location.get(intent.getIntExtra("placeName",0)).latitude);
+            placeLocation.setLongitude(MainActivity.location.get(intent.getIntExtra("placeName",0)).longitude);
+            centerMapOnLocation(placeLocation,MainActivity.places.get(intent.getIntExtra("placeName",0)));
+        }
     }
 
     @Override
